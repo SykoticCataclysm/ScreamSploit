@@ -1,6 +1,7 @@
 {
     "Jailbreak": {
         "Id": 606849621,
-        "Script": "Jailbreak.lua"
+        "Script": "Jailbreak.lua",
+        "Image": ""
     }
 }
