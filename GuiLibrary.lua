@@ -109,8 +109,6 @@ function library:CreateWindow(name, size)
 	local title = Instance.new("TextLabel")
 	local UIListLayout = Instance.new("UIListLayout")
 
-    
-    
     main.Name = "main"
     main.Parent = library.gui
     main.BackgroundColor3 = Color3.new(1, 1, 1)
@@ -154,10 +152,8 @@ function library:CreateWindow(name, size)
     UIListLayout.Padding = UDim.new(0, 5);
 	
 	local mainLib = {}
-
 	mainLib.Count = self.WindowCount
 	mainLib.Container = main
-
 	self.WindowCount = self.WindowCount + 1
 
 	function mainLib:Resize()
@@ -167,7 +163,6 @@ function library:CreateWindow(name, size)
 				count = count + 1
 			end
 		end
-
 		local Size = UDim2.new(0, 180, 0, (count * 45 + size) - 10)
 		main.Size = Size
 	end
@@ -201,7 +196,6 @@ function library:CreateWindow(name, size)
 				ImageTransparency = 1;
 			})
 			Animation:Play();
-
 			Animation.Completed:Connect(function()
 				rippleEffect:Destroy();
 			end);
@@ -447,8 +441,7 @@ function library:CreateWindow(name, size)
 		local Player = game:GetService("Players").LocalPlayer;
 		local UIS = game:GetService("UserInputService");
 		local RuS = game:GetService("RunService");
-		
-		-- Properties
+
 		local held = false;
 		local step = 1;
 		local percentage = 0;
@@ -645,12 +638,9 @@ function library:CreateWindow(name, size)
 			[Enum.UserInputType.MouseButton2] = "Mouse2";
 			[Enum.UserInputType.MouseButton3] = "Mouse3";
 		};
-
 		keybindbutton.MouseButton1Click:Connect(function()
 			local Connection;
-
 			keybindbutton.Text = ". . .";
-
 			Connection = UIS.InputBegan:Connect(function(i)
 				if WhitelistedType[i.UserInputType] then
 					keybindbutton.Text = WhitelistedType[i.UserInputType];
@@ -669,8 +659,6 @@ function library:CreateWindow(name, size)
 				else
 					warn("Exception: " .. i.UserInputType .. " " .. i.KeyCode);
 				end;
-
-				
 				Connection:Disconnect();
 			end);
 		end);
@@ -686,3 +674,5 @@ function library:CreateWindow(name, size)
 	Detect.Name = '0v1'
 	return mainLib
 end
+
+return library
