@@ -1,7 +1,7 @@
 {
     "JB": {
         "Id": 606849621,
-        "Script": "Test.lua",
+        "Script": "Jailbreak.lua",
         "Image": "https://t4.rbxcdn.com/caeb8a5aa07f3f6be0d81bc4abef1ad3",
         "Name": "Jailbreak"
     }
