@@ -1,51 +1,6 @@
-for _,v in pairs(game:GetService('CoreGui'):GetDescendants()) do
-	if v:IsA('IntValue') and v.Name == '0v1' then
-		v.Parent:Destroy()
-	end
-end
-
 local Heartbeat = game:GetService("RunService").Heartbeat;
 local UIS = game:GetService("UserInputService");
 local TweenService = game:GetService("TweenService");
-
-
-if shared.Cursor then
-	local Old_Cursor = shared.Cursor;
-
-	shared.Cursor = nil;
-	Old_Cursor:Remove();
-end;
-
-if Drawing then
-	local Cursor = Drawing.new("Circle");
-	Cursor.Filled = true;
-	Cursor.Color = Color3.fromRGB(255, 255, 255);
-	Cursor.Transparency = 1;
-	Cursor.Visible = true;
-	Cursor.Radius = 5;
-	Cursor.Thickness = 1;
-	shared.Cursor = Cursor;
-
-	local connection;
-
-	connection = Heartbeat:Connect(function()
-		if not shared.Cursor then
-			connection:disconnect();
-		else
-			shared.Cursor.Position = UIS:GetMouseLocation();
-		end;
-	end);
-end;
-
-
-local settings = {
-	main_theme = {
-
-	},
-	secondary_theme = {
-		
-	}
-}
 
 local library = {}
 library.WindowCount = 0
@@ -55,11 +10,10 @@ local Heartbeat = game:GetService("RunService").Heartbeat;
 local dragger = {};
 
     do
-        local mouse        = game:GetService("Players").LocalPlayer:GetMouse();
+        local mouse = game:GetService("Players").LocalPlayer:GetMouse();
         local inputService = game:GetService('UserInputService');
-        local heartbeat    = game:GetService("RunService").Heartbeat;
-
-        -- // credits to Ririchi / Inori for this cute drag function :)
+		local heartbeat = game:GetService("RunService").Heartbeat;
+		
         function dragger.new(frame, secondlol)
             frame.Active = true;
             secondlol.Active = true;
