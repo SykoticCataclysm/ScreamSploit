@@ -436,7 +436,7 @@ function Library:CreateWindow(name)
         RunService.RenderStepped:Connect(function()
 			if Held then
 				local Pos = Slider.Frame.Position
-                Percentage = math.clamp((Mouse.X  - Slider.Container.AbsoluteSize.X) / Slider.Container.AbsolutePosition.X, 0, 1)
+                Percentage = math.clamp((Mouse.X  - Slider.Container.AbsolutePosition.X) / Slider.Container.AbsoluteSize.X, 0, 1)
 				Slider.Frame.Position = UDim2.new(Percentage, 0, Pos.Y.Scale, Pos.Y.Offset)
 				Slider.Fill.Size = UDim2.new(Percentage, 0, 0, 3)
         		Slider.Value = math.floor(settings.min + ((settings.max - settings.min) * Percentage))
