@@ -419,13 +419,13 @@ function Library:CreateWindow(name)
             Position = UDim2.new(1.02941179, -43, 0, 0),
             Size = UDim2.new(0.223529384, 0, 0.646666706, 0),
             Font = Enum.Font.Gotham,
-            Text = tostring(settings.default),
+            Text = tostring(Slider.Value),
             TextColor3 = Color3.new(1, 1, 1),
             TextSize = 14,
             TextTransparency = 0.5
         })
-        local Held, Step, Percentage = false, 1, 0
-        Slider.Back.MouseButton1Down:Connect(function()
+        local Held, Percentage = false, 0
+        Slider.Container.MouseButton1Down:Connect(function()
             Held = true
         end)
         UserInputService.InputEnded:Connect(function(input, isgameprocessed)
@@ -434,13 +434,14 @@ function Library:CreateWindow(name)
             end
         end)
         RunService.RenderStepped:Connect(function()
-            if Held then
-                local Pos = Slider.Frame.Position
-                Percentage = math.clamp((Mouse.X  - Slider.Back.AbsoluteSize.X) / Slider.Back.AbsolutePosition.X, 0, 1)
-                Slider.Fill.Size = UDim2.new(Percentage, 0, 0, 3)
-                local Amount = math.floor(settings.min + ((settings.max - settings.min) * Percentage))
-                Slider.Label.Text = tostring(Amount)
-                Slider.Func(Amount)
+			if Held then
+				local Pos = Slider.Frame.Position
+                Percentage = math.clamp((Mouse.X  - Slider.Container.AbsoluteSize.X) / Slider.Container.AbsolutePosition.X, 0, 1)
+				Slider.Frame.Position = UDim2.new(Percentage, 0, Pos.Y.Scale, Pos.Y.Offset)
+				Slider.Fill.Size = UDim2.new(Percentage, 0, 0, 3)
+        		Slider.Value = math.floor(settings.min + ((settings.max - settings.min) * Percentage))
+                Slider.Label.Text = tostring(Slider.Value)
+                Slider.Func(Slider.Value)
             end
         end)
 		Window:Resize()
