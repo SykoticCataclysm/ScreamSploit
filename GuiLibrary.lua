@@ -3,6 +3,7 @@ local Library = { WindowCount = 0, Toggled = true }
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
+local Mouse = game:GetService("Players").LocalPlayer:GetMouse()
 
 local Dragger = {}
 function Dragger.New(frame, dragitem)
@@ -16,10 +17,10 @@ function Dragger.New(frame, dragitem)
     end)
     local input = dragitem.InputBegan:connect(function(key)
         if key.UserInputType == Enum.UserInputType.MouseButton1 and IsInFrame then
-            local objectPosition = Vector2.new(mouse.X - frame.AbsolutePosition.X, mouse.Y - frame.AbsolutePosition.Y)
+            local objectPosition = Vector2.new(Mouse.X - frame.AbsolutePosition.X, Mouse.Y - frame.AbsolutePosition.Y)
             while RunService.Heartbeat:wait() and UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) do
                 pcall(function()
-                    frame:TweenPosition(UDim2.new(0, mouse.X - objectPosition.X + (frame.Size.X.Offset * frame.AnchorPoint.X), 0, mouse.Y - objectPosition.Y + (frame.Size.Y.Offset * frame.AnchorPoint.Y)), 'Out', 'Linear', 0.04, true)
+                    frame:TweenPosition(UDim2.new(0, Mouse.X - objectPosition.X + (frame.Size.X.Offset * frame.AnchorPoint.X), 0, Mouse.Y - objectPosition.Y + (frame.Size.Y.Offset * frame.AnchorPoint.Y)), 'Out', 'Linear', 0.04, true)
                 end)
             end
         end
