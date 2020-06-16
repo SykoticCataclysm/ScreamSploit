@@ -114,7 +114,7 @@ function Library:CreateWindow(name)
 				Count = Count + 1
 			end
 		end
-		Main.Size = UDim2.new(0, 180, 0, (Count * 45) - 10)
+		Main.Size = UDim2.new(0, 180, 0, (Count * 40))
     end
 
     function Window:Section(text)
@@ -126,7 +126,7 @@ function Library:CreateWindow(name)
             BackgroundTransparency = 1,
             BorderSizePixel = 0,
             Position = UDim2.new(0.5, -85, 0, 98),
-            Size = UDim2.new(0, 170,0, 35),
+            Size = UDim2.new(0, 170, 0, 35),
             Image = "rbxassetid://4550094458",
             ImageColor3 = Color3.fromRGB(40, 40, 40),
             ScaleType = Enum.ScaleType.Slice,
@@ -259,8 +259,8 @@ function Library:CreateWindow(name)
         })
         Toggle.Box.MouseButton1Click:Connect(function()
             Toggle.Enabled = not Toggle.Enabled
-            Library:PlayTween(fill, {ImageTransparency = Toggle.Enabled and 0 or 1}, 0.1, {"Linear", "In"})
-            Library:PlayTween(check, {ImageTransparency = Toggle.Enabled and 0 or 1}, 0.1, {"Linear", "In"})
+            Library:PlayTween(fill, {ImageTransparency = Toggle.Enabled and 0 or 1}, 0.1, {Enum.EasingStyle.Linear, Enum.EasingDirection.In})
+            Library:PlayTween(check, {ImageTransparency = Toggle.Enabled and 0 or 1}, 0.1, {Enum.EasingStyle.Linear, Enum.EasingDirection.In})
             Toggle.Func(Toggle.Enabled)
         end)
         Window:Resize()
@@ -397,19 +397,6 @@ function Library:CreateWindow(name)
             ScaleType = Enum.ScaleType.Slice,
             SliceCenter = Rect.new(4, 4, 296, 296)
         })
-        Slider.Frame = Library:Create("ImageLabel", {
-            Name = "Frame",
-            Parent = Slider.Line,
-            BackgroundColor3 = Color3.new(1, 1, 1),
-            BackgroundTransparency = 1,
-            BorderSizePixel = 0,
-            Position = UDim2.new(0, 0, 0.5, -7),
-            Size = UDim2.new(0.0199999996, 0, 4.66666651, 0),
-            Image = "rbxassetid://4550094458",
-            ImageColor3 = Color3.new(1, 0.27451, 0.286275),
-            ScaleType = Enum.ScaleType.Slice,
-            SliceCenter = Rect.new(4, 4, 296, 296)
-        })
         Slider.Label = Library:Create("TextLabel", {
             Name = "Label",
             Parent = Slider.Container,
@@ -425,7 +412,7 @@ function Library:CreateWindow(name)
             TextTransparency = 0.5
         })
         local Held, Percentage = false, 0
-        Slider.Container.MouseButton1Down:Connect(function()
+        Slider.Back.MouseButton1Down:Connect(function()
             Held = true
         end)
         UserInputService.InputEnded:Connect(function(input, isgameprocessed)
@@ -436,8 +423,7 @@ function Library:CreateWindow(name)
         RunService.RenderStepped:Connect(function()
 			if Held then
 				local Pos = Slider.Frame.Position
-                Percentage = math.clamp((Mouse.X  - Slider.Container.AbsolutePosition.X) / Slider.Container.AbsoluteSize.X, 0, 1)
-				Slider.Frame.Position = UDim2.new(Percentage, 0, Pos.Y.Scale, Pos.Y.Offset)
+                Percentage = math.clamp((Mouse.X  - Slider.Line.AbsolutePosition.X) / Slider.Line.AbsoluteSize.X, 0, 1)
 				Slider.Fill.Size = UDim2.new(Percentage, 0, 0, 3)
         		Slider.Value = math.floor(settings.min + ((settings.max - settings.min) * Percentage))
                 Slider.Label.Text = tostring(Slider.Value)
