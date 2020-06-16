@@ -372,6 +372,19 @@ function Library:CreateWindow(name)
             TextColor3 = Color3.new(0, 0, 0),
             TextSize = 14
         })
+        Slider.Line = Library:Create("ImageLabel", {
+            Name = "Line",
+            Parent = Slider.Back,
+            BackgroundColor3 = Color3.new(1, 1, 1),
+            BackgroundTransparency = 1,
+            BorderSizePixel = 0,
+            Position = UDim2.new(0.5, -75, 0.680000007, -2),
+            Size = UDim2.new(0.882352948, 0, 0.0500000007, 0),
+            Image = "rbxassetid://4550094458",
+            ImageTransparency = 0.5,
+            ScaleType = Enum.ScaleType.Slice,
+            SliceCenter = Rect.new(4, 4, 296, 296)
+        })
         Slider.Fill = Library:Create("ImageLabel", {
             Name = "Fill",
             Parent = Slider.Line,
