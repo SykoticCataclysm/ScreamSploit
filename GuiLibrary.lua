@@ -444,7 +444,9 @@ function Library:CreateWindow(name)
             end
         end)
         Window:Resize()
-    end
+	end
+	
+	return Window
 end
 
 return Library
