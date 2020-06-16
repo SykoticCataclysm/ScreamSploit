@@ -330,8 +330,8 @@ function Library:CreateWindow(name)
     end
 
     function Window:Slider(name, settings, callback)
-        assert(settings.min and settings.max and settings.default, "min, max, and default value required")
-        local Slider = { Value = settings.default }
+        assert(settings.min and settings.max, "min, max, and default value required")
+        local Slider = { Value = settings.min }
         Slider.Func = callback or function() end
         Slider.Container = Library:Create("ImageLabel", {
             Name = "Slidersection",
@@ -422,7 +422,6 @@ function Library:CreateWindow(name)
         end)
         RunService.RenderStepped:Connect(function()
 			if Held then
-				local Pos = Slider.Frame.Position
                 Percentage = math.clamp((Mouse.X  - Slider.Line.AbsolutePosition.X) / Slider.Line.AbsoluteSize.X, 0, 1)
 				Slider.Fill.Size = UDim2.new(Percentage, 0, 0, 3)
         		Slider.Value = math.floor(settings.min + ((settings.max - settings.min) * Percentage))
