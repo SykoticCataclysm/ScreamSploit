@@ -113,7 +113,7 @@ function Library:CreateWindow(name)
 				Count = Count + 1
 			end
 		end
-		Main.Size = UDim2.new(0, 180, 0, (count * 45) - 10)
+		Main.Size = UDim2.new(0, 180, 0, (Count * 45) - 10)
     end
 
     function Window:Section(text)
@@ -443,9 +443,8 @@ function Library:CreateWindow(name)
                 Slider.Func(Amount)
             end
         end)
-        Window:Resize()
+		Window:Resize()
 	end
-	
 	return Window
 end
 

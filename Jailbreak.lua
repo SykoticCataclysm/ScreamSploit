@@ -13,12 +13,13 @@ Local = {
     Player = Services.Players.LocalPlayer
 }
 
-Meta = {
+local Meta = {
     Table = getrawmetatable(game),
-    Index = Meta.Table.__index,
-    NewIndex = Meta.Table.__newindex,
-    Namecall = Meta.Table.__namecall
 }
+
+Meta.Index = Meta.Table.__index
+Meta.NewIndex = Meta.Table.__newindex
+Meta.Namecall = Meta.Table.__namecall
 
 -- Setup
 
@@ -29,7 +30,7 @@ if Local.Player.Character then
         Local.Root = Local.Char.HumanoidRootPart
         Local.Hum.WalkSpeed = Settings.WalkSpeed
         Local.Hum.JumpPower = Settings.JumpPower
-        Hum.Died:Connect(function()
+        Local.Hum.Died:Connect(function()
             Local.Char = nil
             Local.Hum = nil
             Local.Root = nil
@@ -37,13 +38,13 @@ if Local.Player.Character then
     end
 end
 
-Local.Player.PlayerAdded:Connect(function(Char)
+Local.Player.CharacterAdded:Connect(function(Char)
     Local.Char = Char
     Local.Hum = Char:WaitForChild("Humanoid")
     Local.Root = Char:WaitForChild("HumanoidRootPart")
     Local.Hum.WalkSpeed = Settings.WalkSpeed
     Local.Hum.JumpPower = Settings.JumpPower
-    Hum.Died:Connect(function()
+    Local.Hum.Died:Connect(function()
         Local.Char = nil
         Local.Hum = nil
         Local.Root = nil
@@ -67,7 +68,7 @@ end)
 
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/SykoticCataclysm/ScreamSploit/master/GuiLibrary.lua", true))()
 
-local PlayerTab = Library:CreateWindow("Player", 0)
+local PlayerTab = Library:CreateWindow("Player")
 
 PlayerTab:Slider("WalkSpeed", { min = 16, max = 125, default = Settings.WalkSpeed }, function(val)
     Settings.WalkSpeed = val
