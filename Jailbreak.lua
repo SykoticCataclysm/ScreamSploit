@@ -29,6 +29,11 @@ if Local.Player.Character then
         Local.Root = Local.Char.HumanoidRootPart
         Local.Hum.WalkSpeed = Settings.WalkSpeed
         Local.Hum.JumpPower = Settings.JumpPower
+        Hum.Died:Connect(function()
+            Local.Char = nil
+            Local.Hum = nil
+            Local.Root = nil
+        end)
     end
 end
 
@@ -38,6 +43,11 @@ Local.Player.PlayerAdded:Connect(function(Char)
     Local.Root = Char:WaitForChild("HumanoidRootPart")
     Local.Hum.WalkSpeed = Settings.WalkSpeed
     Local.Hum.JumpPower = Settings.JumpPower
+    Hum.Died:Connect(function()
+        Local.Char = nil
+        Local.Hum = nil
+        Local.Root = nil
+    end)
 end)
 
 setreadonly(Meta.Table, false)
@@ -59,10 +69,16 @@ local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Sykot
 
 local PlayerTab = Library:CreateWindow("Player", 0)
 
-PlayerTab:Slider("WalkSpeed", { max = 125 }, function(val)
+PlayerTab:Slider("WalkSpeed", { min = 16, max = 125, default = Settings.WalkSpeed }, function(val)
     Settings.WalkSpeed = val
+    if Local.Hum then
+        Local.Hum.WalkSpeed = val
+    end
 end)
 
-PlayerTab:Slider("JumpPower", { max = 100 }, function(val)
+PlayerTab:Slider("JumpPower", { min = 50, max = 100, default = Settings.JumpPower }, function(val)
     Settings.JumpPower = val
+    if Local.Hum then
+        Local.Hum.JumpPower = val
+    end
 end)

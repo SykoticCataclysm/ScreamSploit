@@ -282,7 +282,7 @@ function Library:CreateWindow(name)
             SliceCenter = Rect.new(4, 4, 296, 296)
         })
         TextBox.Label = Library:Create("TextLabel", {
-            textboxlabel.Name = "Label",
+            Name = "Label",
             Parent = TextBox.Container,
             BackgroundColor3 = Color3.new(1, 1, 1),
             BackgroundTransparency = 1,
