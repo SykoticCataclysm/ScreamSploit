@@ -20,7 +20,7 @@ function Dragger.New(frame, dragitem)
             local objectPosition = Vector2.new(Mouse.X - frame.AbsolutePosition.X, Mouse.Y - frame.AbsolutePosition.Y)
             while RunService.Heartbeat:wait() and UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) do
                 pcall(function()
-                    frame:TweenPosition(UDim2.new(0, Mouse.X - objectPosition.X + (frame.Size.X.Offset * frame.AnchorPoint.X), 0, Mouse.Y - objectPosition.Y + (frame.Size.Y.Offset * frame.AnchorPoint.Y)), 'Out', 'Linear', 0.04, true)
+                    frame:TweenPosition(UDim2.new(0, Mouse.X - objectPosition.X + (frame.Size.X.Offset * frame.AnchorPoint.X), 0, Mouse.Y - objectPosition.Y + (frame.Size.Y.Offset * frame.AnchorPoint.Y)), 'Out', 'Linear', 0.1, true)
                 end)
             end
         end
