@@ -154,6 +154,7 @@ function Library:Window(name)
                 Name = "Button",
                 Position = UDim2.new(0, 5, 0, 5),
                 Size = UDim2.new(0, 160, 0, 25),
+                Text = text,
                 TextColor3 = Color3.new(1, 1, 1),
                 TextSize = 16,
                 ZIndex = 2,
