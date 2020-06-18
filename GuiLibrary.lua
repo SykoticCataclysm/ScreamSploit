@@ -1,436 +1,365 @@
-local Library = { WindowCount = 0, Toggled = true }
+local Library = { Windows = 0 }
 
-local RunService = game:GetService("RunService")
-local UserInputService = game:GetService("UserInputService")
-local TweenService = game:GetService("TweenService")
+local Heartbeat = game:GetService("RunService").Heartbeat
 local Mouse = game:GetService("Players").LocalPlayer:GetMouse()
 
-local Dragger = {}
-function Dragger.New(frame, dragitem)
-    frame.Active = true
-    dragitem.Active = true
-    dragitem.MouseEnter:connect(function()
-        IsInFrame = true
-    end)
-    dragitem.MouseLeave:connect(function()
-        IsInFrame = false
-    end)
-    local input = dragitem.InputBegan:connect(function(key)
-        if key.UserInputType == Enum.UserInputType.MouseButton1 and IsInFrame then
-            local objectPosition = Vector2.new(Mouse.X - frame.AbsolutePosition.X, Mouse.Y - frame.AbsolutePosition.Y)
-            while RunService.Heartbeat:wait() and UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) do
-                pcall(function()
-                    frame:TweenPosition(UDim2.new(0, Mouse.X - objectPosition.X + (frame.Size.X.Offset * frame.AnchorPoint.X), 0, Mouse.Y - objectPosition.Y + (frame.Size.Y.Offset * frame.AnchorPoint.Y)), 'Out', 'Linear', 0.1, true)
-                end)
-            end
-        end
-    end)
+local function Create(obj, props)
+	local Obj = Instance.new(obj)
+	for i, v in pairs(props) do
+		if i ~= "Parent" then
+			if typeof(v) == "Instance" then
+				v.Parent = Obj
+			else
+				Obj[i] = v
+			end
+		end			
+	end
+	Obj.Parent = props.Parent
+	return Obj
 end
 
-function Library:Create(type, props)
-    local Obj = Instance.new(type, props.Parent)
-    for i, v in next, props do
-        Obj[i] = v
-    end
-    return Obj
-end
-
-function Library:PlayTween(obj, props, speed, easing)
-    easing = easing or {}
-    local Tween = TweenService:Create(obj, TweenInfo.new(speed, unpack(easing)), props)
-    Tween:Play()
-    return Tween
-end;
-
-Library.Gui = Library:Create("ScreenGui", {
-    Name = "ScreamSploit",
-    Parent = game:GetService("CoreGui"),
-    ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+Library.Gui = Create("ScreenGui", {
+	Name = "ScreamSploit",
+	Parent = game:GetService("CoreGui")
 })
 
-UserInputService.InputBegan:Connect(function(input, isgameprocessed)
-    if not isgameprocessed and input.KeyCode == Enum.KeyCode.RightShift then
-        Library.Toggled = not Library.Toggled
-        Library.Gui.Enabled = Library.Toggled
-    end
-end)
-
-function Library:CreateWindow(name)
-    local Main = Library:Create("ImageLabel", {
-        Name = "Main",
-        Parent = Library.Gui,
-        BackgroundColor3 = Color3.new(1, 1, 1),
-        BackgroundTransparency = 1,
-        BorderSizePixel = 0,
-        Position = UDim2.new(0, 30 + (190 * Library.WindowCount), 0, 50),
-        Size = UDim2.new(0, 180, 0, 333),
-        Image = "rbxassetid://4550094458",
-        ImageColor3 = Color3.new(0.137255, 0.137255, 0.137255),
-        ScaleType = Enum.ScaleType.Slice,
-        SliceCenter = Rect.new(4, 4, 296, 296)
-    })
-    local Bar = Library:Create("ImageLabel", {
-        Name = "Bar",
-        Parent = Main,
-        BackgroundColor3 = Color3.new(1, 0.27451, 0.286275),
-        BackgroundTransparency = 1,
-        BorderSizePixel = 0,
-        Position = UDim2.new(0, 0, 0, -2),
-        Size = UDim2.new(0, 180,0, 32),
-        Image = "rbxassetid://4550094255",
-        ImageColor3 = Color3.new(1, 0.27451, 0.286275),
-        ScaleType = Enum.ScaleType.Slice,
-        SliceCenter = Rect.new(4, 4, 296, 296)
-    })
-    local Title = Library:Create("TextLabel", {
-        Name = "Title",
-        Parent = Bar,
-        BackgroundColor3 = Color3.new(1, 1, 1),
-        BackgroundTransparency = 1,
-        BorderSizePixel = 0,
-        Size = UDim2.new(1, 0, 1, 0),
-        Font = Enum.Font.GothamSemibold,
-        Text = name,
-        TextColor3 = Color3.new(1, 1, 1),
-        TextSize = 16
-    })
-    local UIListLayout = Library:Create("UIListLayout", {
-        Parent = Main,
-        SortOrder = Enum.SortOrder.LayoutOrder,
-        HorizontalAlignment = "Center",
-        Padding = UDim.new(0, 5)
-    })
-    Dragger.New(Main, Bar)
-
-    local Window = {}
-    Window.Count = Library.WindowCount
-    Window.Container = Main
-    Library.WindowCount = Library.WindowCount + 1
-
-    function Window:Resize()
-        local Count = 0 
-		for i, v in pairs(Main:GetChildren()) do
-			if not v:IsA('UIListLayout') then
-				Count = Count + 1
+function Library:Window(name)
+	local Window = { Number = Library.Windows, Open = true }
+	Library.Windows = Library.Windows + 1
+	
+	function Window:Resize(tween)
+		local Size = 0
+		for i, v in next, Window.Frame:GetChildren() do
+			if not v:IsA("UIListLayout") then
+				Size = Size + v.AbsoluteSize.Y
 			end
 		end
-		Main.Size = UDim2.new(0, 180, 0, (Count * 40))
-    end
+		if tween then
+			Window.Frame:TweenSize(UDim2.new(0, 170, 0, Size + 5), "InOut", "Sine", 0.4)
+		else
+			Window.Frame.Size = UDim2.new(0, 170, 0, Size + 5)
+		end
+	end
+	
+	Window.Frame = Create("ImageLabel", {
+        BackgroundColor3 = Color3.new(1, 1, 1),
+		BackgroundTransparency = 1,
+		ClipsDescendants = true,
+        Image = "rbxassetid://3570695787",
+        ImageColor3 = Color3.new(0.137255, 0.137255, 0.137255),
+		Name = name,
+		Parent = Library.Gui,
+        Position = UDim2.new(0, 50 + 190 * Window.Number, 0, 25),
+        ScaleType = Enum.ScaleType.Slice,
+        Size = UDim2.new(0, 170, 0, 0),
+        SliceCenter = Rect.new(Vector2.new(100, 100), Vector2.new(100, 100)),
+		SliceScale = 0.1,
+		Create("UIListLayout", {
+			SortOrder = Enum.SortOrder.LayoutOrder
+		}),
+		Create("ImageLabel", {
+            BackgroundColor3 = Color3.new(1, 1, 1),
+            BackgroundTransparency = 1,
+            Image = "rbxassetid://5196024144",
+            ImageColor3 = Color3.new(0.117647, 0.117647, 0.117647),
+            Name = "Top",
+            ScaleType = Enum.ScaleType.Slice,
+            Size = UDim2.new(0, 170, 0, 30),
+            SliceCenter = Rect.new(Vector2.new(100, 100), Vector2.new(100, 100)),
+            SliceScale = 0.07,
+            Create("TextLabel", {
+                BackgroundColor3 = Color3.new(0.392157, 0.12549, 0.666667),
+                BorderSizePixel = 0,
+                Font = Enum.Font.SourceSans,
+                Name = "Underline",
+                Position = UDim2.new(0, 0, 1, -2),
+                Size = UDim2.new(0, 170, 0, 2),
+                Text = "",
+                TextColor3 = Color3.new(0, 0, 0),
+                TextSize = 14
+            }),
+            Create("TextLabel", {
+                BackgroundColor3 = Color3.new(1, 1, 1),
+                BackgroundTransparency = 1,
+                BorderSizePixel = 0,
+                Font = Enum.Font.Fantasy,
+                Name = "Title",
+                Size = UDim2.new(0, 160, 0, 30),
+                Text = name,
+                TextColor3 = Color3.new(1, 1, 1),
+                TextSize = 18
+            }),
+            Create("TextButton", {
+                BackgroundColor3 = Color3.new(1, 1, 1),
+                BackgroundTransparency = 1,
+                Font = Enum.Font.SourceSans,
+                Name = "Minimise",
+                Position = UDim2.new(0, 140, 0, 0),
+                Size = UDim2.new(0, 30, 0, 28),
+                Text = "-",
+                TextColor3 = Color3.new(1, 1, 1),
+                TextSize = 30
+            })
+        })
+	})
+	
+	Window.Minimise = Window.Frame.Top.Minimise
+	Window.Minimise.MouseButton1Click:Connect(function()
+		Window.Open = not Window.Open
+		Window.Minimise.Text = Window.Open and "-" or "+"
+		if Window.Open then
+			Window:Resize(true)
+		else
+			Window.Frame:TweenSize(UDim2.new(0, 170, 0, 30), "InOut", "Sine", 0.4, true)
+		end
+	end)
+	
+	function Window:Section(text)
+		local Section = {}
+		Section.Frame = Create("Frame", {
+            BackgroundColor3 = Color3.new(1, 1, 1),
+            BackgroundTransparency = 1,
+			Name = "SectionFrame",
+			Parent = Window.Frame,
+            Size = UDim2.new(0, 170, 0, 30),
+            Create("TextLabel", {
+                BackgroundColor3 = Color3.new(0.392157, 0.12549, 0.666667),
+                BorderSizePixel = 0,
+                Font = Enum.Font.Fantasy,
+                Name = "Label",
+                Position = UDim2.new(0, 0, 0, 5),
+                Size = UDim2.new(0, 170, 0, 25),
+                Text = text,
+                TextColor3 = Color3.new(1, 1, 1),
+                TextSize = 16
+            })
+		})
 
-    function Window:Section(text)
-        local Section = {}
-        Section.Container = Library:Create("ImageLabel", {
-            Name = "Section",
-            Parent = Main,
-            BackgroundColor3 = Color3.new(1, 1, 1),
-            BackgroundTransparency = 1,
-            BorderSizePixel = 0,
-            Position = UDim2.new(0.5, -85, 0, 98),
-            Size = UDim2.new(0, 170, 0, 35),
-            Image = "rbxassetid://4550094458",
-            ImageColor3 = Color3.fromRGB(40, 40, 40),
-            ScaleType = Enum.ScaleType.Slice,
-            SliceCenter = Rect.new(4, 4, 296, 296)
-        })
-        Section.Text = Library:Create("TextLabel", {
-            Name = "Text",
-            Parent = Section.Container,
-            BackgroundColor3 = Color3.new(1, 1, 1),
-            BackgroundTransparency = 1,
-            BorderSizePixel = 0,
-            Size = UDim2.new(1, 0, 1, 0),
-            Font = Enum.Font.Gotham,
-            Text = text,
-            TextColor3 = Color3.new(1, 1, 1),
-            TextSize = 14
-        })
-        Window:Resize()
-    end
-
-    function Window:Button(name, callback)
-        local Button = {}
-        Button.Func = callback or function() end
-        Button.Container = Library:Create("ImageLabel", {
-            Name = "Buttonsection",
-            Parent = Main,
-            BackgroundColor3 = Color3.new(1, 1, 1),
-            BackgroundTransparency = 1,
-            BorderSizePixel = 0,
-            Position = UDim2.new(0.5, -85, 0, 98),
-            Size = UDim2.new(0, 170,0, 35),
-            Image = "rbxassetid://4550094458",
-            ImageColor3 = Color3.fromRGB(40, 40, 40),
-            ScaleType = Enum.ScaleType.Slice,
-            SliceCenter = Rect.new(4, 4, 296, 296)
-        })
-        Button.Buttonback = Library:Create("ImageLabel", {
-            Name = "Buttonback",
-            Parent = Button.Container,
-            BackgroundColor3 = Color3.new(1, 1, 1),
-            BackgroundTransparency = 1,
-            BorderSizePixel = 0,
-            Position = UDim2.new(0.5, -78, 0.5, -12),
-            Size = UDim2.new(0.917647064, 0, 0.685714304, 0),
-            Image = "rbxassetid://4641155515",
-            ImageColor3 = Color3.new(1, 0.27451, 0.286275),
-            ScaleType = Enum.ScaleType.Slice,
-            SliceCenter = Rect.new(4, 4, 296, 296)
-        })
-        Button.Button = Library:Create("TextButton", {
-            Name = "Button",
-            Parent = Button.Buttonback,
-            BackgroundColor3 = Color3.new(1, 1, 1),
-            BackgroundTransparency = 1,
-            BorderSizePixel = 0,
-            Size = UDim2.new(1, 0, 1, 0),
-            Font = Enum.Font.Gotham,
-            TextColor3 = Color3.new(1, 1, 1),
-            ClipsDescendants = true,
-            TextSize = 12,
-            Text = name
-        })
-        Button.Button.MouseButton1Click:Connect(Button.Func)
-        Window:Resize()
-    end
-
-    function Window:Toggle(name, callback)
-        local Toggle = { Enabled = false }
-        Toggle.Func = callback or function() end
-        Toggle.Boxsection = Library:Create("ImageLabel", {
-            Name = "Boxsection",
-            Parent = Main,
-            BackgroundColor3 = Color3.new(1, 1, 1),
-            BackgroundTransparency = 1,
-            BorderSizePixel = 0,
-            Position = UDim2.new(0.5, -85, 0, 98),
-            Size = UDim2.new(0, 170,0, 35),
-            Image = "rbxassetid://4550094458",
-            ImageColor3 = Color3.fromRGB(40, 40, 40),
-            ScaleType = Enum.ScaleType.Slice,
-            SliceCenter = Rect.new(4, 4, 296, 296)
-        })
-        Toggle.Boxtitle = Library:Create("TextLabel", {
-            Name = "Boxtitle",
-            Parent = Toggle.Boxsection,
-            BackgroundColor3 = Color3.new(1, 1, 1),
-            BackgroundTransparency = 1,
-            BorderSizePixel = 0,
-            Position = UDim2.new(0.0576470755, 0, 0, 0),
-            Size = UDim2.new(0.470588237, 0, 1, 0),
-            Font = Enum.Font.Gotham,
-            Text = name,
-            TextColor3 = Color3.new(1, 1, 1),
-            TextSize = 14,
-            TextXAlignment = Enum.TextXAlignment.Left
-        })
-        Toggle.Box = Library:Create("ImageButton", {
-            Name = "Box",
-            Parent = Toggle.Boxsection,
-            BackgroundColor3 = Color3.new(1, 0.27451, 0.286275),
-            BackgroundTransparency = 1,
-            BorderSizePixel = 0,
-            Position = UDim2.new(0.800000012, 0, 0.5, -12),
-            Size = UDim2.new(0.141176477, 0, 0.685714304, 0),
-            AutoButtonColor = false,
-            Image = "rbxassetid://4552505888",
-            ImageColor3 = Color3.new(1, 0.27451, 0.286275)
-        })
-        Toggle.Fill = Library:Create("ImageLabel", {
-            Name = "Fill",
-            Parent = Toggle.Box,
-            BackgroundColor3 = Color3.new(1, 1, 1),
-            BackgroundTransparency = 1,
-            BorderSizePixel = 0,
-            Size = UDim2.new(1, 0, 1, 0),
-            Image = "rbxassetid://4555402813",
-            ImageColor3 = Color3.new(1, 0.27451, 0.286275),
-            ImageTransparency = 1
-        })
-        Toggle.Check = Library:Create("ImageLabel", {
-            Name = "Check",
-            Parent = Toggle.Fill,
-            BackgroundColor3 = Color3.new(1, 1, 1),
-            BackgroundTransparency = 1,
-            BorderSizePixel = 0,
-            Position = UDim2.new(0.5, -9, 0.5, -9),
-            Size = UDim2.new(0.75, 0, 0.75, 0),
-            Image = "rbxassetid://4555411759",
-            ImageTransparency = 1
-        })
-        Toggle.Box.MouseButton1Click:Connect(function()
-            Toggle.Enabled = not Toggle.Enabled
-            Library:PlayTween(Toggle.Fill, {ImageTransparency = Toggle.Enabled and 0 or 1}, 0.1, {Enum.EasingStyle.Linear, Enum.EasingDirection.In})
-            Library:PlayTween(Toggle.Check, {ImageTransparency = Toggle.Enabled and 0 or 1}, 0.1, {Enum.EasingStyle.Linear, Enum.EasingDirection.In})
-            Toggle.Func(Toggle.Enabled)
-        end)
-        Window:Resize()
-    end
-
-    function Window:TextBox(name, default, callback)
-        local TextBox = {}
-        TextBox.Func = callback or function() end
-        TextBox.Container = Library:Create("ImageLabel", {
-            Name = "Textboxsection",
-            Parent = Main,
-            BackgroundColor3 = Color3.new(1, 1, 1),
-            BackgroundTransparency = 1,
-            BorderSizePixel = 0,
-            Position = UDim2.new(0.5, -85, 0, 98),
-            Size = UDim2.new(0, 170,0, 35),
-            Image = "rbxassetid://4550094458",
-            ImageColor3 = Color3.fromRGB(40, 40, 40),
-            ScaleType = Enum.ScaleType.Slice,
-            SliceCenter = Rect.new(4, 4, 296, 296)
-        })
-        TextBox.Label = Library:Create("TextLabel", {
-            Name = "Label",
-            Parent = TextBox.Container,
-            BackgroundColor3 = Color3.new(1, 1, 1),
-            BackgroundTransparency = 1,
-            BorderSizePixel = 0,
-            Position = UDim2.new(0.0576470755, 0, 0, 0),
-            Size = UDim2.new(0.470588237, 0, 1, 0),
-            Font = Enum.Font.Gotham,
-            Text = name,
-            TextColor3 = Color3.new(1, 1, 1),
-            TextSize = 14,
-            TextXAlignment = Enum.TextXAlignment.Left
-        })
-        TextBox.Holder = Library:Create("ImageLabel", {
-            Name = "Holder",
-            Parent = TextBox.Container,
-            BackgroundColor3 = Color3.new(1, 1, 1),
-            BackgroundTransparency = 1,
-            BorderSizePixel = 0,
-            Position = UDim2.new(0.529411793, 0, 0.5, -12),
-            Size = UDim2.new(0.441176474, 0, 0.685714304, 0),
-            Image = "rbxassetid://4550094458",
-            ImageColor3 = Color3.new(0.137255, 0.137255, 0.137255),
-            ScaleType = Enum.ScaleType.Slice,
-            SliceCenter = Rect.new(4, 4, 296, 296)
-        })
-        TextBox.Box = Library:Create("TextBox", {
-            Name = "Box",
-            Parent = TextBox.Holder,
-            BackgroundColor3 = Color3.new(1, 1, 1),
-            BackgroundTransparency = 1,
-            BorderSizePixel = 0,
-            ClipsDescendants = true,
-            Size = UDim2.new(1, 0, 1, 0),
-            Font = Enum.Font.Gotham,
-            PlaceholderText = "Text",
-            Text = default,
-            TextColor3 = Color3.new(1, 1, 1),
-            TextSize = 10
-        })
-        TextBox.Box.FocusLost:Connect(function()
-            TextBox.Func(TextBox.Box.Text)
-        end)
-        Window:Resize()
-    end
-
-    function Window:Slider(name, settings, callback)
-        assert(settings.min and settings.max, "min, max, and default value required")
-        local Slider = { Value = settings.min }
-        Slider.Func = callback or function() end
-        Slider.Container = Library:Create("ImageLabel", {
-            Name = "Slidersection",
-            Parent = Main,
-            BackgroundColor3 = Color3.new(1, 1, 1),
-            BackgroundTransparency = 1,
-            BorderSizePixel = 0,
-            Position = UDim2.new(0.5, -85, 0, 98),
-            Size = UDim2.new(0, 170,0, 35),
-            Image = "rbxassetid://4550094458",
-            ImageColor3 = Color3.fromRGB(40, 40, 40),
-            ScaleType = Enum.ScaleType.Slice,
-            SliceCenter = Rect.new(4, 4, 296, 296)
-        })
-        Slider.Name = Library:Create("TextLabel", {
-            Name = "Name",
-            Parent = Slider.Container,
-            BackgroundColor3 = Color3.new(1, 1, 1),
-            BackgroundTransparency = 1,
-            BorderSizePixel = 0,
-            Position = UDim2.new(0.311764717, -43, 0, 0),
-            Size = UDim2.new(0.470588237, 0, 0.646666706, 0),
-            Font = Enum.Font.Gotham,
-            Text = name,
-            TextColor3 = Color3.new(1, 1, 1),
-            TextSize = 14,
-            TextXAlignment = Enum.TextXAlignment.Left
-        })
-        Slider.Back = Library:Create("TextButton", {
-            Name = "Back",
-            Parent = Slider.Container,
-            BackgroundColor3 = Color3.new(1, 1, 1),
-            BackgroundTransparency = 1,
-            BorderSizePixel = 0,
-            Size = UDim2.new(1, 0, 1, 0),
-            Font = Enum.Font.SourceSans,
-            Text = "",
-            TextColor3 = Color3.new(0, 0, 0),
-            TextSize = 14
-        })
-        Slider.Line = Library:Create("ImageLabel", {
-            Name = "Line",
-            Parent = Slider.Back,
-            BackgroundColor3 = Color3.new(1, 1, 1),
-            BackgroundTransparency = 1,
-            BorderSizePixel = 0,
-            Position = UDim2.new(0.5, -75, 0.680000007, -2),
-            Size = UDim2.new(0.882352948, 0, 0.0500000007, 0),
-            Image = "rbxassetid://4550094458",
-            ImageTransparency = 0.5,
-            ScaleType = Enum.ScaleType.Slice,
-            SliceCenter = Rect.new(4, 4, 296, 296)
-        })
-        Slider.Fill = Library:Create("ImageLabel", {
-            Name = "Fill",
-            Parent = Slider.Line,
-            BackgroundColor3 = Color3.new(1, 1, 1),
-            BackgroundTransparency = 1,
-            BorderSizePixel = 0,
-            Size = UDim2.new(0, 0, 1, 0),
-            Image = "rbxassetid://4550094458",
-            ImageColor3 = Color3.new(1, 0.27451, 0.286275),
-            ScaleType = Enum.ScaleType.Slice,
-            SliceCenter = Rect.new(4, 4, 296, 296)
-        })
-        Slider.Label = Library:Create("TextLabel", {
-            Name = "Label",
-            Parent = Slider.Container,
-            BackgroundColor3 = Color3.new(1, 1, 1),
-            BackgroundTransparency = 1,
-            BorderSizePixel = 0,
-            Position = UDim2.new(1.02941179, -43, 0, 0),
-            Size = UDim2.new(0.223529384, 0, 0.646666706, 0),
-            Font = Enum.Font.Gotham,
-            Text = tostring(Slider.Value),
-            TextColor3 = Color3.new(1, 1, 1),
-            TextSize = 14,
-            TextTransparency = 0.5
-        })
-        local Held, Percentage = false, 0
-        Slider.Back.MouseButton1Down:Connect(function()
-            Held = true
-        end)
-        UserInputService.InputEnded:Connect(function(input, isgameprocessed)
-            if input.UserInputType == Enum.UserInputType.MouseButton1 then
-                Held = false
-            end
-        end)
-        RunService.RenderStepped:Connect(function()
-			if Held then
-                Percentage = math.clamp((Mouse.X  - Slider.Line.AbsolutePosition.X) / Slider.Line.AbsoluteSize.X, 0, 1)
-				Slider.Fill.Size = UDim2.new(Percentage, 0, 0, 3)
-        		Slider.Value = math.floor(settings.min + ((settings.max - settings.min) * Percentage))
-                Slider.Label.Text = tostring(Slider.Value)
-                Slider.Func(Slider.Value)
-            end
-        end)
 		Window:Resize()
 	end
+	
+	function Window:Button(text, func)
+		local Button = {}
+		Button.Frame = Create("Frame", {
+            BackgroundColor3 = Color3.new(1, 1, 1),
+            BackgroundTransparency = 1,
+			Name = "ButtonFrame",
+			Parent = Window.Frame,
+            Size = UDim2.new(0, 170, 0, 30),
+            Create("TextButton", {
+                BackgroundColor3 = Color3.new(1, 1, 1),
+                BackgroundTransparency = 1,
+                BorderSizePixel = 0,
+                Font = Enum.Font.Fantasy,
+                Name = "Button",
+                Position = UDim2.new(0, 5, 0, 5),
+                Size = UDim2.new(0, 160, 0, 25),
+                TextColor3 = Color3.new(1, 1, 1),
+                TextSize = 16,
+                ZIndex = 2,
+                Create("ImageLabel", {
+                    Active = true,
+                    AnchorPoint = Vector2.new(0.5, 0.5),
+                    BackgroundColor3 = Color3.new(1, 1, 1),
+                    BackgroundTransparency = 1,
+                    Image = "rbxassetid://3570695787",
+                    ImageColor3 = Color3.new(0.392157, 0.12549, 0.666667),
+                    Name = "Background",
+                    Position = UDim2.new(0.5, 0, 0.5, 0),
+                    ScaleType = Enum.ScaleType.Slice,
+                    Selectable = true,
+                    Size = UDim2.new(1, 0, 1, 0),
+                    SliceCenter = Rect.new(Vector2.new(100, 100), Vector2.new(100, 100)),
+                    SliceScale = 0.07
+                })
+            })
+		})
+		
+		Button.Click = Button.Frame.Button
+		Button.Click.MouseButton1Click:Connect(func)
+
+		Window:Resize()
+	end
+	
+	function Window:Toggle(name, func)
+		local Toggle = { Enabled = false }
+		Toggle.Frame = Create("Frame", {
+            BackgroundColor3 = Color3.new(1, 1, 1),
+            BackgroundTransparency = 1,
+			Name = "ToggleFrame",
+			Parent = Window.Frame,
+            Size = UDim2.new(0, 170, 0, 30),
+            Create("TextLabel", {
+                BackgroundColor3 = Color3.new(1, 1, 1),
+                BackgroundTransparency = 1,
+                Font = Enum.Font.Fantasy,
+                Name = "Label",
+                Position = UDim2.new(0, 5, 0, 5),
+                Size = UDim2.new(0, 130, 0, 25),
+                Text = name,
+                TextColor3 = Color3.new(1, 1, 1),
+                TextSize = 16,
+                TextXAlignment = Enum.TextXAlignment.Left
+            }),
+            Create("ImageButton", {
+                BackgroundColor3 = Color3.new(1, 1, 1),
+                BackgroundTransparency = 1,
+                BorderSizePixel = 0,
+                Image = "rbxassetid://3570695787",
+                ImageColor3 = Color3.new(0.196078, 0.196078, 0.196078),
+                Name = "Button",
+                Position = UDim2.new(0, 140, 0, 5),
+                ScaleType = Enum.ScaleType.Slice,
+                Size = UDim2.new(0, 25, 0, 25),
+                SliceCenter = Rect.new(Vector2.new(100, 100), Vector2.new(100, 100)),
+                SliceScale = 0.07
+            })
+		})
+		
+		Toggle.Click = Toggle.Frame.Button
+		Toggle.Click.MouseButton1Click:Connect(function()
+			Toggle.Enabled = not Toggle.Enabled
+			Toggle.Click.ImageColor3 = Toggle.Enabled and Color3.new(0.392157, 0.12549, 0.666667) or Color3.new(0.196078, 0.196078, 0.196078)
+			func(Toggle.Enabled)
+		end)
+		
+		Window:Resize()
+	end
+	
+	function Window:Box(name, func)
+		local Box = {}
+		Box.Frame = Create("Frame", {
+            BackgroundColor3 = Color3.new(1, 1, 1),
+            BackgroundTransparency = 1,
+			Name = "BoxFrame",
+			Parent = Window.Frame,
+            Size = UDim2.new(0, 170, 0, 30),
+            Create("ImageLabel", {
+                Active = true,
+                BackgroundColor3 = Color3.new(1, 1, 1),
+                BackgroundTransparency = 1,
+                Image = "rbxassetid://3570695787",
+                ImageColor3 = Color3.new(0.196078, 0.196078, 0.196078),
+                Name = "Background",
+                Position = UDim2.new(0, 5, 0, 5),
+                ScaleType = Enum.ScaleType.Slice,
+                Selectable = true,
+                Size = UDim2.new(0, 160, 0, 25),
+                SliceCenter = Rect.new(Vector2.new(100, 100), Vector2.new(100, 100)),
+                SliceScale = 0.070000000298023
+            }),
+            Create("TextBox", {
+                BackgroundColor3 = Color3.new(1, 1, 1),
+                BackgroundTransparency = 1,
+                Font = Enum.Font.Fantasy,
+				Name = "Box",
+				PlaceholderText = name,
+                Position = UDim2.new(0, 5, 0, 5),
+                Size = UDim2.new(0, 160, 0, 25),
+                Text = "",
+                TextColor3 = Color3.new(1, 1, 1),
+                TextSize = 16
+            })
+		})
+		
+		Box.Holder = Box.Frame.Box
+		Box.Holder.FocusLost:Connect(function()
+			if Box.Holder.Text ~= "" then
+				func(Box.Holder.Text)
+			end
+		end)
+		
+		Window:Resize()
+	end
+	
+	function Window:Slider(name, min, max, func)
+		local Slider = { Value = min, Drag = nil }
+		Slider.Frame = Create("Frame", {
+            BackgroundColor3 = Color3.new(1, 1, 1),
+            BackgroundTransparency = 1,
+			Name = "SliderFrame",
+			Parent = Window.Frame,
+            Size = UDim2.new(0, 170, 0, 50),
+            Create("TextLabel", {
+                BackgroundColor3 = Color3.new(1, 1, 1),
+                BackgroundTransparency = 1,
+                Font = Enum.Font.Fantasy,
+                Name = "Label",
+                Position = UDim2.new(0, 5, 0, 5),
+                Size = UDim2.new(0, 160, 0, 25),
+                Text = name,
+                TextColor3 = Color3.new(1, 1, 1),
+                TextSize = 16,
+                TextXAlignment = Enum.TextXAlignment.Left
+            }),
+            Create("TextLabel", {
+                BackgroundColor3 = Color3.new(1, 1, 1),
+                BackgroundTransparency = 1,
+                Font = Enum.Font.Fantasy,
+                Name = "Current",
+                Position = UDim2.new(0, 5, 0, 5),
+                Size = UDim2.new(0, 160, 0, 25),
+                Text = min,
+                TextColor3 = Color3.new(1, 1, 1),
+                TextSize = 16,
+                TextXAlignment = Enum.TextXAlignment.Right
+            }),
+            Create("ImageLabel", {
+                Active = true,
+                BackgroundColor3 = Color3.new(1, 1, 1),
+                BackgroundTransparency = 1,
+                Image = "rbxassetid://3570695787",
+                ImageColor3 = Color3.new(0.196078, 0.196078, 0.196078),
+                Name = "Background",
+                Position = UDim2.new(0, 5, 0, 32),
+                ScaleType = Enum.ScaleType.Slice,
+                Selectable = true,
+                Size = UDim2.new(0, 160, 0, 18),
+                SliceCenter = Rect.new(Vector2.new(100, 100), Vector2.new(100, 100)),
+                SliceScale = 0.07,
+                Create("ImageLabel", {
+                    Active = true,
+                    BackgroundColor3 = Color3.new(1, 1, 1),
+                    BackgroundTransparency = 1,
+                    Image = "rbxassetid://3570695787",
+                    ImageColor3 = Color3.new(0.392157, 0.12549, 0.666667),
+                    Name = "Fill",
+                    ScaleType = Enum.ScaleType.Slice,
+                    Selectable = true,
+                    Size = UDim2.new(0, 0, 1, 0),
+                    SliceCenter = Rect.new(Vector2.new(100, 100), Vector2.new(100, 100)),
+                    SliceScale = 0.07
+                })
+            })
+		})
+		
+		Slider.Current = Slider.Frame.Current
+		Slider.Background = Slider.Frame.Background
+		Slider.Fill = Slider.Background.Fill
+		Slider.Background.InputBegan:Connect(function(Input)
+			if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+				if Slider.Drag then
+					Slider.Drag:Disconnect()
+				end
+				Slider.Drag = Heartbeat:Connect(function()
+					local Percent = math.clamp((Mouse.X - Slider.Background.AbsolutePosition.X) / Slider.Background.AbsoluteSize.X, 0, 1)
+					Slider.Value = settings.min + ((settings.max - settings.min) * Percent)
+					Slider.Current.Text = Slider.Value
+					func(Slider.Value)
+					Slider.Fill:TweenSize(UDim2.new(Percent, 0, 1, 0), "InOut", "Linear", 0.1, true)
+				end)
+			end
+		end)
+		Slider.Background.InputEnded:Connect(function(Input)
+			if Input.UserInputType == Enum.UserInputType.MouseButton1 and Slider.Drag then
+				Slider.Drag:Disconnect()
+			end
+		end)
+		
+		Window:Resize()
+	end
+	
+	Window:Resize()
 	return Window
 end
 
