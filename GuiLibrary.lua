@@ -365,7 +365,7 @@ function Library:Window(name)
 				end
 				Slider.Drag = Heartbeat:Connect(function()
 					local Percent = math.clamp((Mouse.X - Slider.Background.AbsolutePosition.X) / Slider.Background.AbsoluteSize.X, 0, 1)
-					Slider.Value = settings.min + ((settings.max - settings.min) * Percent)
+					Slider.Value = min + ((max - min) * Percent)
 					Slider.Current.Text = Slider.Value
 					func(Slider.Value)
 					Slider.Fill:TweenSize(UDim2.new(Percent, 0, 1, 0), "InOut", "Linear", 0.1, true)
