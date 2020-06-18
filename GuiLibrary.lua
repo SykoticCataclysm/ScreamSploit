@@ -18,6 +18,26 @@ local function Create(obj, props)
 	return Obj
 end
 
+local function Dragger(obj, drag)
+    local Connection
+    drag.InputBegan:Connect(function(Input)
+        if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+            if Connection then
+                Connection:Disconnect()
+            end
+            local Start = Vector2.new(Mouse.X - obj.AbsolutePosition.X, Mouse.Y - obj.AbsolutePosition.Y)
+            Connection = Heartbeat:Connect(function()
+                obj:TweenPosition(UDim2.new(0, Mouse.X - Start.X, 0, Mouse.Y - Start.Y), "InOut", "Linear", 0.1, true)
+            end)
+        end
+    end)
+    drag.InputEnded:Connect(function(Input)
+        if Input.UserInputType == Enum.UserInputType.MouseButton1 and Connection then
+            Connection:Disconnect()
+        end
+    end)
+end
+
 Library.Gui = Create("ScreenGui", {
 	Name = "ScreamSploit",
 	Parent = game:GetService("CoreGui")
@@ -49,7 +69,7 @@ function Library:Window(name)
         ImageColor3 = Color3.new(0.137255, 0.137255, 0.137255),
 		Name = name,
 		Parent = Library.Gui,
-        Position = UDim2.new(0, 50 + 190 * Window.Number, 0, 25),
+        Position = UDim2.new(0, 20 + 180 * Window.Number, 0, 25),
         ScaleType = Enum.ScaleType.Slice,
         Size = UDim2.new(0, 170, 0, 0),
         SliceCenter = Rect.new(Vector2.new(100, 100), Vector2.new(100, 100)),
@@ -112,7 +132,8 @@ function Library:Window(name)
 		else
 			Window.Frame:TweenSize(UDim2.new(0, 170, 0, 30), "InOut", "Sine", 0.4, true)
 		end
-	end)
+    end)
+    Dragger(Window.Frame, Window.Frame.Top)
 	
 	function Window:Section(text)
 		local Section = {}
