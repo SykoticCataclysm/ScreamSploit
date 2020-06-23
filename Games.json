@@ -10,5 +10,17 @@
         "Script": "PhantomForces.lua",
         "Image": "https://t5.rbxcdn.com/ec28e4729367b5e11bcf37e86eb1c8a7",
         "Name": "Phantom Forces"
+    },
+    "BP": {
+        "Id": 3527629287,
+        "Script": "BigPaintball.lua",
+        "Image": "https://t0.rbxcdn.com/1f8e09695ab8225fc170ddbd515a4ca3",
+        "Name": "BIG Paintball"
+    },
+    "TOH": {
+        "Id": 1962086868,
+        "Script": "TowerOfHell.lua",
+        "Image": "https://t1.rbxcdn.com/641249de925be99ace18f994a7ec9f98",
+        "Name": "Tower Of Hell"
     }
 }
