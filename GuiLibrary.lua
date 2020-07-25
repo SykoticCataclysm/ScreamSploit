@@ -242,7 +242,7 @@ function Library:Window(name)
             Size = UDim2.new(1, 0, 0, 33),
             Create('TextBox', {
                 BackgroundColor3 = Color3.new(0.137255, 0.137255, 0.137255),
-                BorderColor3 = Color3.new(0.392157, 0.12549, 0.666667),
+                BorderColor3 = Color3.new(0.0980392, 0.0980392, 0.0980392),
 				BorderMode = Enum.BorderMode.Inset,                
 				Font = Enum.Font.SourceSansSemibold,
                 Name = 'Box',
@@ -319,7 +319,7 @@ function Library:Window(name)
             }),
             Create('TextButton', {
                 BackgroundColor3 = Color3.new(0.137255, 0.137255, 0.137255),
-                BorderColor3 = Color3.new(0.392157, 0.12549, 0.666667),
+                BorderColor3 = Color3.new(0.0980392, 0.0980392, 0.0980392),
 				BorderMode = Enum.BorderMode.Inset,                
 				Font = Enum.Font.SourceSansSemibold,
                 Name = 'Box',
@@ -396,7 +396,6 @@ function Library:Window(name)
                     BackgroundColor3 = Color3.new(1, 1, 1),
                     BackgroundTransparency = 1,
                     Image = 'rbxassetid://3570695787',
-                    ImageColor3 = Color3.new(0.392157, 0.12549, 0.666667),
                     Name = 'Drag',
                     Position = UDim2.new(0, 0, 0.5, 0),
                     ScaleType = Enum.ScaleType.Slice,
@@ -484,7 +483,6 @@ function Library:Window(name)
                     BackgroundColor3 = Color3.new(1, 1, 1),
                     BackgroundTransparency = 1,
                     Image = 'rbxassetid://3570695787',
-                    ImageColor3 = Color3.new(0.392157, 0.12549, 0.666667),
                     Name = 'Drag',
                     Position = UDim2.new(0, 0, 0.5, 0),
                     ScaleType = Enum.ScaleType.Slice,
