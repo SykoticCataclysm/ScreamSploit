@@ -167,7 +167,7 @@ function Library:Window(name)
 				Size = UDim2.new(1, -6, 0, 28),
 				Text = text,
                 TextColor3 = Color3.new(0.862745, 0.862745, 0.862745),
-                TextSize = 20
+                TextSize = 18
             })
 		})
 		
@@ -272,12 +272,15 @@ function Library:Window(name)
 			return false
 		end
 		
-		function Box:Set(val)
+		function Box:Set(val, call)
 			local res = CheckType(val)
 			if typeof(res) == "string" or res == true then
 				val = typeof(res) == "string" and res or val
 				Box.Content = val
-				Box.Callback(val)
+				Box.Holder.Text = val
+				if call then
+					Box.Callback(val)
+				end
 			else
 				Box.Holder.Text = Box.Content
 			end
@@ -285,10 +288,10 @@ function Library:Window(name)
 		
 		Box.Holder = Box.Frame.Box
 		Box.Holder.FocusLost:Connect(function()
-			Box:Set(Box.Holder.Text)
+			Box:Set(Box.Holder.Text, true)
 		end)
 		if default ~= "" then
-			Box:Set(default)
+			Box:Set(default, true)
 		end
 		Window:Resize(false)
 		return Box
