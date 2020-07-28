@@ -1,3 +1,10 @@
+game:GetService("StarterGui"):SetCore("SendNotification", {
+    Title = "ScreamSploit",
+    Text = "If You're Obvious With This, You'll Probably Get Votekicked.\n",
+    Duration = 5,
+    Button1 = "Alrighty"
+})
+
 --[[
  ___       __   ________  ___       ___           ___    ___ ________  _______   ________  ___  ___  ________  _______        _________  _____ ______           
 |\  \     |\  \|\   __  \|\  \     |\  \         |\  \  /  /|\   ____\|\  ___ \ |\   ____\|\  \|\  \|\   __  \|\  ___ \   ___|\___   ___\\   _ \  _   \  ___    
