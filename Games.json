@@ -28,5 +28,11 @@
         "Script": "TowerOfHell.lua",
         "Image": "https://t1.rbxcdn.com/641249de925be99ace18f994a7ec9f98",
         "Name": "Tower Of Hell"
+    },
+    "MC": {
+        "Id": 1224212277,
+        "Script": "MadCity.lua",
+        "Image": "https://t2.rbxcdn.com/cfc3661e9f96b4c5841e7eda00f4f924",
+        "Name": "Mad City"
     }
 }
