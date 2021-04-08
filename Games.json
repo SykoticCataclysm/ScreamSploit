@@ -1,38 +1,8 @@
 {
-    "BP": {
-        "Id": 3527629287,
-        "Script": "BigPaintball.lua",
-        "Image": "https://t0.rbxcdn.com/1f8e09695ab8225fc170ddbd515a4ca3",
-        "Name": "BIG Paintball"
-    },
-    "PF": {
-        "Id": 292439477,
-        "Script": "PhantomForces.lua",
-        "Image": "https://t5.rbxcdn.com/ec28e4729367b5e11bcf37e86eb1c8a7",
-        "Name": "Phantom Forces"
-    },
-    "PL": {
-        "Id": 155615604,
-        "Script": "PrisonLife.lua",
-        "Image": "https://t5.rbxcdn.com/b02c404394868b6a75d91292a19e0dc8",
-        "Name": "Prison Life"
-    },
-    "RP": {
-        "Id": 402122991,
-        "Script": "RedwoodPrison.lua",
-        "Image": "https://t3.rbxcdn.com/cacf07ced416011db28a34e356b9c291",
-        "Name": "Redwood Prison"
-    },
-    "TOH": {
-        "Id": 1962086868,
-        "Script": "TowerOfHell.lua",
-        "Image": "https://t1.rbxcdn.com/641249de925be99ace18f994a7ec9f98",
-        "Name": "Tower Of Hell"
-    },
-    "MC": {
-        "Id": 1224212277,
-        "Script": "MadCity.lua",
-        "Image": "https://t2.rbxcdn.com/cfc3661e9f96b4c5841e7eda00f4f924",
-        "Name": "Mad City"
+    "NT": {
+        "Id": 21532277,
+        "Script": "Notoriety.lua",
+        "Image": "https://cdn.discordapp.com/attachments/755134414450720849/829766385797300324/455564f08935a08582f05ba7d417a608.jpg",
+        "Name": "Notoriety"
     }
 }
