@@ -4,5 +4,11 @@
         "Script": "Notoriety.lua",
         "Image": "https://cdn.discordapp.com/attachments/755134414450720849/829766385797300324/455564f08935a08582f05ba7d417a608.jpg",
         "Name": "Notoriety"
+    },
+    "BF": {
+        "Id": 2753915549,
+        "Script": "BloxFruits.lua",
+        "Image": "https://cdn.discordapp.com/attachments/812014413908279368/829769227429740625/777a0c5c09164cc8bc5ec7a4e78eca0e.jpg",
+        "Name": "Blox Fruits"
     }
 }
