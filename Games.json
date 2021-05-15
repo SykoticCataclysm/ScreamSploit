@@ -11,6 +11,12 @@
         "Image": "https://cdn.discordapp.com/attachments/812014413908279368/829769227429740625/777a0c5c09164cc8bc5ec7a4e78eca0e.jpg",
         "Name": "Blox Fruits"
      },
+    "BIS": {
+        "Id": 3851622790,
+        "Script": "Teezy.lua",
+        "Image": "https://media.discordapp.net/attachments/761676625775296513/843133551624060989/ab7dbd1cb0315ca7c7e56f8d0a11e4ab.jpg",
+        "Name": "Break In (Story)"
+     },
     "GAT": {
         "Id": 6165106805,
         "Script": "GetASnack.lua",
