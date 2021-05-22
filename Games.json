@@ -22,5 +22,10 @@
         "Script": "GetASnack.lua",
         "Image": "https://cdn.discordapp.com/attachments/834205047071965248/834205849979191367/fe30bc0909398dabb365b8051a5750a1.png",
         "Name": "Get A Snack At 4 Am"
-    }
+    },
+"GAT": {
+        "Id": 5780309044,
+        "Script": "StandsAwakening.lua",
+        "Image": "https://cdn.discordapp.com/attachments/843547737048088596/845664057209782342/2fc40b94ea1c2a5a92649dd447d8354e.jpg",
+        "Name": "Stands Awakening"
 }
