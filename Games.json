@@ -35,7 +35,7 @@
         "Image": "https://cdn.discordapp.com/attachments/843561347428909056/847111279499542528/eae252cc5647bcd57def1ceefcbaff6a.png",
         "Name": "Tower Defense"
       }  
-"MadCity": {
+"MC": {
         "Id": 1224212277,
         "Script": "MadCity.lua",
         "Image": "https://cdn.discordapp.com/attachments/843561347428909056/847112174991310918/886647a8e063318da78065218c93fe48.png",
