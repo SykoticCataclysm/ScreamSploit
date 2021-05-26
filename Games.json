@@ -35,4 +35,40 @@
         "Image": "https://cdn.discordapp.com/attachments/843561347428909056/847111279499542528/eae252cc5647bcd57def1ceefcbaff6a.png",
         "Name": "Tower Defense"
       }  
+"MadCity": {
+        "Id": 1224212277,
+        "Script": "MadCity.lua",
+        "Image": "https://cdn.discordapp.com/attachments/843561347428909056/847112174991310918/886647a8e063318da78065218c93fe48.png",
+        "Name": "MadCity"
+      }  
+"BP": {
+        "Id": 3527629287,
+        "Script": "BigPaintball.lua",
+        "Image": "https://cdn.discordapp.com/attachments/843561347428909056/847112460653821983/5888bd75e550ae63029f2eb3a42fb686.png",
+        "Name": "BigPaintball"
+      }  
+"PF": {
+        "Id": 292439477,
+        "Script": "PhantomForces.lua",
+        "Image": "https://cdn.discordapp.com/attachments/843561347428909056/847112737464254504/215e8a57a4ceade7f7b8691ebdec2eeb.png",
+        "Name": "PhantomForces"
+      }  
+"PL": {
+        "Id": 155615604,
+        "Script": "PrisonLife.lua",
+        "Image": "https://cdn.discordapp.com/attachments/843561347428909056/847113059163308052/0c017dbc9b86a8b46ac14e7beed2c024.png",
+        "Name": "PrisonLife"
+      }  
+"RP": {
+        "Id": 402122991,
+        "Script": "RedwoodPrison.lua",
+        "Image": "https://cdn.discordapp.com/attachments/843561347428909056/847113344400752670/d4c61ce9678f7af4e42c1aa6f6b6d263.png",
+        "Name": "RedwoodPrison"
+      }  
+"TOH": {
+        "Id": 1962086868,
+        "Script": "TowerOfHell.lua",
+        "Image": "https://cdn.discordapp.com/attachments/843561347428909056/847113530939015219/0874c5d21529b5ebb5f36780265c8f99.png",
+        "Name": "TowerOfHell"
+      }  
 }
