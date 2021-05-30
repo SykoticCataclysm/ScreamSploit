@@ -70,5 +70,11 @@
         "Script": "TowerOfHell.lua",
         "Image": "https://cdn.discordapp.com/attachments/843561347428909056/847113530939015219/0874c5d21529b5ebb5f36780265c8f99.png",
         "Name": "TowerOfHell"
-      }  
+      },
+"FS": {
+        "Id": 6769764667,
+        "Script": "FactorySim.lua",
+        "Image": "https://cdn.discordapp.com/attachments/839867866803470407/848591605996322886/8f512564d8c0f74c3b7fa096629b84b5.png",
+        "Name": "Factory Simulator"
+      }   
 }
