@@ -82,5 +82,11 @@
         "Script": "Arsenal.lua",
         "Image": "https://cdn.discordapp.com/attachments/839867866803470407/849654621151952966/d5d460dd65da7e87a1cf0c6cacbd3038.png",
         "Name": "Arsenal"
+      },
+"PSS": {
+        "Id": 6331132338,
+        "Script": "PetSwarm.lua",
+        "Image": "https://cdn.discordapp.com/attachments/839867866803470407/849665032416395274/6d99b8058ee4342b2280f918278acd81.png",
+        "Name": "Pet Swarm Sim."
       }   
 }
