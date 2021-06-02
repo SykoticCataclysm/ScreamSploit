@@ -76,5 +76,11 @@
         "Script": "FactorySim.lua",
         "Image": "https://cdn.discordapp.com/attachments/839867866803470407/848591605996322886/8f512564d8c0f74c3b7fa096629b84b5.png",
         "Name": "Factory Simulator"
+      },
+"AR": {
+        "Id": 286090429,
+        "Script": "Arsenal.lua",
+        "Image": "https://cdn.discordapp.com/attachments/839867866803470407/849654621151952966/d5d460dd65da7e87a1cf0c6cacbd3038.png",
+        "Name": "Arsenal"
       }   
 }
