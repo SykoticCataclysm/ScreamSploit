@@ -88,5 +88,11 @@
         "Script": "PetSwarm.lua",
         "Image": "https://cdn.discordapp.com/attachments/839867866803470407/849665032416395274/6d99b8058ee4342b2280f918278acd81.png",
         "Name": "Pet Swarm Sim."
+      },
+"AM": {
+        "Id": 920587237,
+        "Script": "Adoptme.lua",
+        "Image": "https://cdn.discordapp.com/attachments/842483678521327652/850787505593909268/5907102d08e541b9233f75b5eaa3841d.png",
+        "Name": "Adopt Me"
       }   
 }
