@@ -94,5 +94,11 @@
         "Script": "Adoptme.lua",
         "Image": "https://cdn.discordapp.com/attachments/842483678521327652/850787505593909268/5907102d08e541b9233f75b5eaa3841d.png",
         "Name": "Adopt Me"
-      }   
+      },
+   "AF": {
+        "Id": 6299805723,
+        "Script": "AnimeFighters.lua",
+        "Image": "https://cdn.discordapp.com/attachments/853657552563077150/853977806395277322/b9b2349a0593fb577e6f6a8f10604e5f.png",
+        "Name": "Anime fighters sim."
+      }
 }
